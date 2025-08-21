@@ -5,17 +5,25 @@ class Idea {
   String name;
   String tagline;
   String description;
-  int rating;
-  int votes;
 
+  int votes;
+  double totalRatingScore;
+  int numberOfRatings;
   Idea({
     required this.id,
     required this.name,
     required this.tagline,
     required this.description,
-    required this.rating,
     this.votes = 0,
+    this.totalRatingScore = 0.0,
+    this.numberOfRatings = 0,
   });
+  double get averageRating {
+    if (numberOfRatings == 0) {
+      return 0.0;
+    }
+    return totalRatingScore / numberOfRatings;
+  }
 
   Map<String, dynamic> toMap() {
     return {
@@ -23,8 +31,9 @@ class Idea {
       'name': name,
       'tagline': tagline,
       'description': description,
-      'rating': rating,
       'votes': votes,
+      'totalRatingScore': totalRatingScore,
+      'numberOfRatings': numberOfRatings,
     };
   }
 
@@ -34,8 +43,9 @@ class Idea {
       name: map['name'] ?? '',
       tagline: map['tagline'] ?? '',
       description: map['description'] ?? '',
-      rating: map['rating']?.toInt() ?? 0,
       votes: map['votes']?.toInt() ?? 0,
+      totalRatingScore: map['totalRatingScore']?.toDouble() ?? 0.0,
+      numberOfRatings: map['numberOfRatings']?.toInt() ?? 0,
     );
   }
 
