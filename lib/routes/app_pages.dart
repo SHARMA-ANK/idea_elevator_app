@@ -15,7 +15,7 @@ class AppPages {
     GetPage(
       name: Routes.HOME,
       page: () => HomeScreen(),
-      binding: HomeBinding(), // This will inject all necessary controllers
+      binding: HomeBinding(),
     ),
   ];
 }

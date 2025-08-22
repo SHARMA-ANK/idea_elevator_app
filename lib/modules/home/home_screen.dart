@@ -2,39 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:idea_elevator/modules/home/home_controller.dart';
 import 'package:idea_elevator/modules/idea_listing/idea_list_screen.dart';
-
 import 'package:idea_elevator/modules/idea_submission/idea_submission_screen.dart';
-// import 'package:idea_elevator/modules/leaderboard/leaderboard_screen.dart';
-// import 'package:idea_elevator/modules/settings/settings_screen.dart';
+import 'package:idea_elevator/modules/leaderboard/leaderboard_screen.dart';
+import 'package:idea_elevator/modules/settings/settings_controller.dart';
+import 'package:idea_elevator/modules/settings/settings_screen.dart';
 
 class HomeScreen extends GetView<HomeController> {
-  final List<Widget> screens = [
-    IdeaListingScreen(),
-    IdeaSubmissionScreen(),
-    // LeaderboardScreen(),
-    // SettingsScreen(),
-  ];
+  final SettingsController settingsController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Use Obx to listen to tabIndex changes
       body: Obx(() => IndexedStack(
             index: controller.tabIndex.value,
-            children: screens,
+            children: [
+              IdeaListingScreen(),
+              IdeaSubmissionScreen(
+                  key: ValueKey(settingsController.themeMode.value)),
+              LeaderboardScreen(),
+              SettingsScreen(),
+            ],
           )),
       bottomNavigationBar: Obx(() => BottomNavigationBar(
             currentIndex: controller.tabIndex.value,
             onTap: controller.changeTabIndex,
-            selectedItemColor: Colors.blue,
+            selectedItemColor: Theme.of(context).colorScheme.primary,
             unselectedItemColor: Colors.grey,
-            items: [
+            type: BottomNavigationBarType.fixed,
+            items: const [
               BottomNavigationBarItem(
                   icon: Icon(Icons.list_alt), label: 'Ideas'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.add_circle), label: 'New Idea'),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.leaderboard), label: 'LeaderBoard'),
+                  icon: Icon(Icons.leaderboard), label: 'Leaderboard'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.settings), label: 'Settings'),
             ],

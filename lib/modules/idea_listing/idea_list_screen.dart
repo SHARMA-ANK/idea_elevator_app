@@ -10,9 +10,8 @@ class IdeaListingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Startup Ideas'),
+        title: Text('Startup Ideas 💡'),
         actions: [
-          // Sorting menu
           PopupMenuButton<String>(
             tooltip: "Sort Ideas",
             onSelected: controller.changeSortOrder,
@@ -42,7 +41,6 @@ class IdeaListingScreen extends StatelessWidget {
     );
   }
 
-  // Helper widget for the empty state UI
   Widget _buildEmptyState() {
     return Center(
       child: Column(
@@ -60,7 +58,6 @@ class IdeaListingScreen extends StatelessWidget {
     );
   }
 
-  // Helper widget for building each idea card
   Widget _buildIdeaCard(BuildContext context, Idea idea) {
     return Card(
       elevation: 4,
@@ -80,7 +77,6 @@ class IdeaListingScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Average Rating Display
                 Obx(() => _StarRatingDisplay(
                     rating: controller.ideas
                         .firstWhere((i) => i.id == idea.id)
@@ -88,7 +84,6 @@ class IdeaListingScreen extends StatelessWidget {
                 SizedBox(height: 12),
                 Text(idea.description, textAlign: TextAlign.justify),
                 SizedBox(height: 12),
-                // Action Buttons Row
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -104,7 +99,6 @@ class IdeaListingScreen extends StatelessWidget {
                                 'Voted!', 'You upvoted "${idea.name}"');
                           },
                         ),
-                        // Reactive vote count
                         Obx(() => Text(
                               controller.ideas
                                   .firstWhere((i) => i.id == idea.id)
@@ -114,7 +108,6 @@ class IdeaListingScreen extends StatelessWidget {
                             )),
                       ],
                     ),
-                    // Rate Idea Button
                     TextButton.icon(
                       icon: Icon(Icons.star_border, color: Colors.amber),
                       label: Text('Rate Idea'),
@@ -131,7 +124,7 @@ class IdeaListingScreen extends StatelessWidget {
   }
 
   void _showRatingDialog(BuildContext context, String ideaId) {
-    double currentRating = 3.0; // Default rating
+    double currentRating = 3.0;
     Get.dialog(
       AlertDialog(
         title: Text('Rate this Idea'),

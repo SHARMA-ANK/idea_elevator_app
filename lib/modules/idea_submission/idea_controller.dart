@@ -18,7 +18,6 @@ class IdeaController extends GetxController {
     sortIdeas();
   }
 
-  // Add a new idea (no longer creates a fake rating)
   Future<void> addIdea(String name, String tagline, String description) async {
     final newIdea = Idea(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -44,23 +43,21 @@ class IdeaController extends GetxController {
     }
   }
 
-  // New method to add a user's rating
   Future<void> rateIdea(String id, double userRating) async {
     final index = ideas.indexWhere((idea) => idea.id == id);
     if (index != -1) {
       ideas[index].totalRatingScore += userRating;
       ideas[index].numberOfRatings++;
-      ideas.refresh(); // Crucial for Obx to detect the change
+      ideas.refresh();
       await StorageService.saveIdeas(ideas);
       if (sortOrder.value == 'rating') {
-        sortIdeas(); // Re-sort if the current order is by rating
+        sortIdeas();
       }
     }
   }
 
   void sortIdeas() {
     if (sortOrder.value == 'rating') {
-      // Now sorts by the average rating getter
       ideas.sort((a, b) => b.averageRating.compareTo(a.averageRating));
     } else {
       ideas.sort((a, b) => b.votes.compareTo(a.votes));
